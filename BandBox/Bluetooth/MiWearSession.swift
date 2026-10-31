@@ -192,7 +192,7 @@ final class MiWearSession: ObservableObject {
 
         // 4) Auth Step3
         let deviceInfoMsg = MiWearCommand.authDeviceInfo(model: settings.deviceModel,
-                                                         capability: settings.capability,
+                                                         capability: settings.capabilityValue,
                                                          region: settings.region)
         let signs = MiWearCrypto.encryptedSigns(encKey: k.encKey,
                                                 phoneNonce: phoneNonce,
