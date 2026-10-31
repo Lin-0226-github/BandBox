@@ -1,0 +1,499 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		86E09A5A0000000000001021 /* BandBoxApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E09A5A0000000000001020 /* BandBoxApp.swift */; };
+		86E09A5A0000000000001023 /* CRC16.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E09A5A0000000000001022 /* CRC16.swift */; };
+		86E09A5A0000000000001025 /* AES128.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E09A5A0000000000001024 /* AES128.swift */; };
+		86E09A5A0000000000001027 /* MiWearCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E09A5A0000000000001026 /* MiWearCrypto.swift */; };
+		86E09A5A0000000000001029 /* Protobuf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E09A5A0000000000001028 /* Protobuf.swift */; };
+		86E09A5A000000000000102B /* MiWearPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E09A5A000000000000102A /* MiWearPacket.swift */; };
+		86E09A5A000000000000102D /* MiWearCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E09A5A000000000000102C /* MiWearCommand.swift */; };
+		86E09A5A000000000000102F /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E09A5A000000000000102E /* Data+Extensions.swift */; };
+		86E09A5A0000000000001031 /* BLETransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E09A5A0000000000001030 /* BLETransport.swift */; };
+		86E09A5A0000000000001033 /* MiWearSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E09A5A0000000000001032 /* MiWearSession.swift */; };
+		86E09A5A0000000000001035 /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E09A5A0000000000001034 /* SettingsStore.swift */; };
+		86E09A5A0000000000001037 /* AuthKeyExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E09A5A0000000000001036 /* AuthKeyExtractor.swift */; };
+		86E09A5A0000000000001039 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E09A5A0000000000001038 /* AppModel.swift */; };
+		86E09A5A000000000000103B /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E09A5A000000000000103A /* RootView.swift */; };
+		86E09A5A000000000000103D /* DeviceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E09A5A000000000000103C /* DeviceView.swift */; };
+		86E09A5A000000000000103F /* GuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E09A5A000000000000103E /* GuideView.swift */; };
+		86E09A5A0000000000001041 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E09A5A0000000000001040 /* LogView.swift */; };
+		86E09A5A0000000000001043 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E09A5A0000000000001042 /* SettingsView.swift */; };
+		86E09A5A0000000000001045 /* AuthKeyGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E09A5A0000000000001044 /* AuthKeyGuideView.swift */; };
+		86E09A5A0000000000001047 /* BandBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E09A5A0000000000001046 /* BandBoxTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		86E09A5A0000000000001015 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 86E09A5A0000000000001001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 86E09A5A0000000000001002;
+			remoteInfo = BandBox;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		86E09A5A0000000000001005 /* BandBox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BandBox.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		86E09A5A0000000000001006 /* BandBoxTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BandBoxTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		86E09A5A0000000000001048 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		86E09A5A0000000000001049 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		86E09A5A0000000000001020 /* BandBoxApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BandBoxApp.swift"; sourceTree = "<group>"; };
+		86E09A5A0000000000001022 /* CRC16.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CRC16.swift"; sourceTree = "<group>"; };
+		86E09A5A0000000000001024 /* AES128.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AES128.swift"; sourceTree = "<group>"; };
+		86E09A5A0000000000001026 /* MiWearCrypto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MiWearCrypto.swift"; sourceTree = "<group>"; };
+		86E09A5A0000000000001028 /* Protobuf.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Protobuf.swift"; sourceTree = "<group>"; };
+		86E09A5A000000000000102A /* MiWearPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MiWearPacket.swift"; sourceTree = "<group>"; };
+		86E09A5A000000000000102C /* MiWearCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MiWearCommand.swift"; sourceTree = "<group>"; };
+		86E09A5A000000000000102E /* Data+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+Extensions.swift"; sourceTree = "<group>"; };
+		86E09A5A0000000000001030 /* BLETransport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BLETransport.swift"; sourceTree = "<group>"; };
+		86E09A5A0000000000001032 /* MiWearSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MiWearSession.swift"; sourceTree = "<group>"; };
+		86E09A5A0000000000001034 /* SettingsStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SettingsStore.swift"; sourceTree = "<group>"; };
+		86E09A5A0000000000001036 /* AuthKeyExtractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AuthKeyExtractor.swift"; sourceTree = "<group>"; };
+		86E09A5A0000000000001038 /* AppModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AppModel.swift"; sourceTree = "<group>"; };
+		86E09A5A000000000000103A /* RootView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RootView.swift"; sourceTree = "<group>"; };
+		86E09A5A000000000000103C /* DeviceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DeviceView.swift"; sourceTree = "<group>"; };
+		86E09A5A000000000000103E /* GuideView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GuideView.swift"; sourceTree = "<group>"; };
+		86E09A5A0000000000001040 /* LogView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LogView.swift"; sourceTree = "<group>"; };
+		86E09A5A0000000000001042 /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SettingsView.swift"; sourceTree = "<group>"; };
+		86E09A5A0000000000001044 /* AuthKeyGuideView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AuthKeyGuideView.swift"; sourceTree = "<group>"; };
+		86E09A5A0000000000001046 /* BandBoxTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BandBoxTests.swift"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		86E09A5A0000000000001011 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		86E09A5A0000000000001014 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		86E09A5A0000000000001007 = {
+			isa = PBXGroup;
+			children = (
+				86E09A5A0000000000001008 /* BandBox */,
+				86E09A5A0000000000001009 /* BandBoxTests */,
+				86E09A5A0000000000001004 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		86E09A5A0000000000001004 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				86E09A5A0000000000001005 /* BandBox.app */,
+				86E09A5A0000000000001006 /* BandBoxTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		86E09A5A0000000000001008 /* BandBox */ = {
+			isa = PBXGroup;
+			children = (
+				86E09A5A000000000000100A /* App */,
+				86E09A5A000000000000100B /* Protocol */,
+				86E09A5A000000000000100C /* Bluetooth */,
+				86E09A5A000000000000100D /* Services */,
+				86E09A5A000000000000100E /* Views */,
+				86E09A5A000000000000100F /* Resources */,
+			);
+			path = BandBox;
+			sourceTree = "<group>";
+		};
+		86E09A5A000000000000100A /* App */ = {
+			isa = PBXGroup;
+			children = (
+				86E09A5A0000000000001020 /* BandBoxApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		86E09A5A000000000000100B /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				86E09A5A0000000000001022 /* CRC16.swift */,
+				86E09A5A0000000000001024 /* AES128.swift */,
+				86E09A5A0000000000001026 /* MiWearCrypto.swift */,
+				86E09A5A0000000000001028 /* Protobuf.swift */,
+				86E09A5A000000000000102A /* MiWearPacket.swift */,
+				86E09A5A000000000000102C /* MiWearCommand.swift */,
+				86E09A5A000000000000102E /* Data+Extensions.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		86E09A5A000000000000100C /* Bluetooth */ = {
+			isa = PBXGroup;
+			children = (
+				86E09A5A0000000000001030 /* BLETransport.swift */,
+				86E09A5A0000000000001032 /* MiWearSession.swift */,
+			);
+			path = Bluetooth;
+			sourceTree = "<group>";
+		};
+		86E09A5A000000000000100D /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				86E09A5A0000000000001034 /* SettingsStore.swift */,
+				86E09A5A0000000000001036 /* AuthKeyExtractor.swift */,
+				86E09A5A0000000000001038 /* AppModel.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		86E09A5A000000000000100E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				86E09A5A000000000000103A /* RootView.swift */,
+				86E09A5A000000000000103C /* DeviceView.swift */,
+				86E09A5A000000000000103E /* GuideView.swift */,
+				86E09A5A0000000000001040 /* LogView.swift */,
+				86E09A5A0000000000001042 /* SettingsView.swift */,
+				86E09A5A0000000000001044 /* AuthKeyGuideView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		86E09A5A000000000000100F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				86E09A5A0000000000001049 /* Assets.xcassets */,
+				86E09A5A0000000000001048 /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		86E09A5A0000000000001009 /* BandBoxTests */ = {
+			isa = PBXGroup;
+			children = (
+				86E09A5A0000000000001046 /* BandBoxTests.swift */,
+			);
+			path = BandBoxTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		86E09A5A0000000000001002 /* BandBox */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 86E09A5A0000000000001018 /* Build configuration list for PBXNativeTarget "BandBox" */;
+			buildPhases = (
+				86E09A5A0000000000001010 /* Sources */,
+				86E09A5A0000000000001011 /* Frameworks */,
+				86E09A5A0000000000001012 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BandBox;
+			productName = BandBox;
+			productReference = 86E09A5A0000000000001005 /* BandBox.app */;
+			productType = "com.apple.product-type.application";
+		};
+		86E09A5A0000000000001003 /* BandBoxTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 86E09A5A0000000000001019 /* Build configuration list for PBXNativeTarget "BandBoxTests" */;
+			buildPhases = (
+				86E09A5A0000000000001013 /* Sources */,
+				86E09A5A0000000000001014 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				86E09A5A0000000000001016 /* PBXTargetDependency */,
+			);
+			name = BandBoxTests;
+			productName = BandBoxTests;
+			productReference = 86E09A5A0000000000001006 /* BandBoxTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		86E09A5A0000000000001001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					86E09A5A0000000000001002 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+					86E09A5A0000000000001003 = {
+						CreatedOnToolsVersion = 15.0;
+						TestTargetID = 86E09A5A0000000000001002;
+					};
+				};
+			};
+			buildConfigurationList = 86E09A5A0000000000001017 /* Build configuration list for PBXProject "BandBox" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				"zh-Hans",
+			);
+			mainGroup = 86E09A5A0000000000001007;
+			productRefGroup = 86E09A5A0000000000001004 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				86E09A5A0000000000001002 /* BandBox */,
+				86E09A5A0000000000001003 /* BandBoxTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		86E09A5A0000000000001012 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		86E09A5A0000000000001010 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				86E09A5A0000000000001021 /* BandBoxApp.swift in Sources */,
+				86E09A5A0000000000001023 /* CRC16.swift in Sources */,
+				86E09A5A0000000000001025 /* AES128.swift in Sources */,
+				86E09A5A0000000000001027 /* MiWearCrypto.swift in Sources */,
+				86E09A5A0000000000001029 /* Protobuf.swift in Sources */,
+				86E09A5A000000000000102B /* MiWearPacket.swift in Sources */,
+				86E09A5A000000000000102D /* MiWearCommand.swift in Sources */,
+				86E09A5A000000000000102F /* Data+Extensions.swift in Sources */,
+				86E09A5A0000000000001031 /* BLETransport.swift in Sources */,
+				86E09A5A0000000000001033 /* MiWearSession.swift in Sources */,
+				86E09A5A0000000000001035 /* SettingsStore.swift in Sources */,
+				86E09A5A0000000000001037 /* AuthKeyExtractor.swift in Sources */,
+				86E09A5A0000000000001039 /* AppModel.swift in Sources */,
+				86E09A5A000000000000103B /* RootView.swift in Sources */,
+				86E09A5A000000000000103D /* DeviceView.swift in Sources */,
+				86E09A5A000000000000103F /* GuideView.swift in Sources */,
+				86E09A5A0000000000001041 /* LogView.swift in Sources */,
+				86E09A5A0000000000001043 /* SettingsView.swift in Sources */,
+				86E09A5A0000000000001045 /* AuthKeyGuideView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		86E09A5A0000000000001013 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				86E09A5A0000000000001047 /* BandBoxTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		86E09A5A0000000000001016 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 86E09A5A0000000000001002 /* BandBox */;
+			targetProxy = 86E09A5A0000000000001015 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		86E09A5A000000000000101A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		86E09A5A000000000000101B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		86E09A5A000000000000101C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = BandBox/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bandbox.ios;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				ENABLE_PREVIEWS = YES;
+			};
+			name = Debug;
+		};
+		86E09A5A000000000000101D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = BandBox/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bandbox.ios;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				ENABLE_PREVIEWS = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		86E09A5A000000000000101E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.bandbox.ios.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BandBox.app/BandBox";
+			};
+			name = Debug;
+		};
+		86E09A5A000000000000101F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.bandbox.ios.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BandBox.app/BandBox";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		86E09A5A0000000000001017 /* Build configuration list for PBXProject "BandBox" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				86E09A5A000000000000101A /* Debug */,
+				86E09A5A000000000000101B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		86E09A5A0000000000001018 /* Build configuration list for PBXNativeTarget "BandBox" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				86E09A5A000000000000101C /* Debug */,
+				86E09A5A000000000000101D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		86E09A5A0000000000001019 /* Build configuration list for PBXNativeTarget "BandBoxTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				86E09A5A000000000000101E /* Debug */,
+				86E09A5A000000000000101F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 86E09A5A0000000000001001 /* Project object */;
+}

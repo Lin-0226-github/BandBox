@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>小米运动健康日志 · AuthKey 提取</title>
+<style>
+  :root { color-scheme: light dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 28px 18px 60px;
+    font: 15px/1.6 -apple-system, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+    background: #f5f6f8; color: #1c1c1e;
+  }
+  @media (prefers-color-scheme: dark) { body { background: #131315; color: #f2f2f7; } }
+  .wrap { max-width: 760px; margin: 0 auto; }
+  h1 { font-size: 21px; margin: 0 0 6px; }
+  .sub { color: #8e8e93; font-size: 13px; margin-bottom: 22px; }
+  .card { background: #fff; border-radius: 14px; padding: 18px; margin-bottom: 16px;
+          box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+  @media (prefers-color-scheme: dark) { .card { background: #1c1c1e; box-shadow: none; } }
+  .drop { border: 2px dashed #c7c7cc; border-radius: 12px; padding: 32px 16px; text-align: center;
+          cursor: pointer; transition: .15s; }
+  .drop.hover { border-color: #ff9500; background: rgba(255,149,0,.06); }
+  .drop b { color: #ff9500; }
+  input[type=file] { display: none; }
+  .hint { color: #8e8e93; font-size: 12px; margin-top: 10px; }
+  .key { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 14px;
+         word-break: break-all; background: rgba(52,199,89,.12); padding: 10px 12px;
+         border-radius: 8px; margin: 8px 0; }
+  .row { padding: 12px 0; border-bottom: 1px solid rgba(142,142,147,.2); }
+  .row:last-child { border-bottom: 0; }
+  .meta { font-size: 12px; color: #8e8e93; word-break: break-all; }
+  button { font: inherit; padding: 6px 14px; border-radius: 8px; border: 0;
+           background: #ff9500; color: #fff; cursor: pointer; }
+  button.ghost { background: rgba(142,142,147,.16); color: inherit; }
+  .err { color: #ff3b30; font-size: 13px; }
+  ol { padding-left: 20px; margin: 8px 0 0; }
+  li { margin-bottom: 6px; font-size: 13px; color: #636366; }
+  @media (prefers-color-scheme: dark) { li { color: #aeaeb2; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>AuthKey 提取</h1>
+  <div class="sub">解析「小米运动健康」导出的日志压缩包，纯本地运算，文件不会上传到任何服务器。</div>
+
+  <div class="card">
+    <label class="drop" id="drop">
+      <div>把日志 <b>.zip</b> 拖到这里，或点击选择文件</div>
+      <div class="hint">也支持 .log / .txt / .gz；目录请先打包成 zip</div>
+      <input type="file" id="file" accept=".zip,.log,.txt,.gz,.rar,.7z">
+    </label>
+  </div>
+
+  <div class="card" id="result" style="display:none"></div>
+
+  <div class="card">
+    <b style="font-size:14px">日志从哪来</b>
+    <ol>
+      <li>打开小米运动健康 → 设备，确认出现「设备数据同步成功」</li>
+      <li>我的 → 关于，连续快速点击「小米运动健康」图标约 10 次</li>
+      <li>弹出「迁移日志文件」后点确定，等生成完成</li>
+      <li>把导出的 zip 拿到电脑，丢进上面的框里</li>
+    </ol>
+  </div>
+</div>
+
+<script>
+// <core>
+const EXPLICIT = [
+  /"?auth[_\s-]?key"?\s*[:=]\s*"?([0-9a-fA-F]{32})\b/gi,
+  /"(?:device|bind|ble|login)[A-Za-z_]*[Kk]ey"\s*:\s*"([0-9a-fA-F]{32})"/g
+];
+
+function decodeBytes(bytes) {
+  if (bytes.length >= 2 && bytes[0] === 0xFF && bytes[1] === 0xFE) {
+    return new TextDecoder('utf-16le').decode(bytes);
+  }
+  let text = new TextDecoder('utf-8', { fatal: false }).decode(bytes);
+  // UTF-16 无 BOM 时会出现大量 \u0000
+  const zeros = (text.match(/\u0000/g) || []).length;
+  if (zeros > text.length * 0.25) {
+    text = new TextDecoder('utf-16le', { fatal: false }).decode(bytes);
+  }
+  return text;
+}
+
+async function inflate(bytes, method) {
+  if (method === 0) return bytes;
+  if (method !== 8) throw new Error('不支持的压缩方式 ' + method);
+  const ds = new DecompressionStream('deflate-raw');
+  const stream = new Blob([bytes]).stream().pipeThrough(ds);
+  return new Uint8Array(await new Response(stream).arrayBuffer());
+}
+
+/** 解析 zip，返回 [{name, bytes}] */
+async function parseZip(buf) {
+  const u8 = new Uint8Array(buf);
+  const dv = new DataView(u8.buffer, u8.byteOffset, u8.byteLength);
+  let eocd = -1;
+  for (let i = u8.length - 22; i >= 0 && i >= u8.length - 66000; i--) {
+    if (dv.getUint32(i, true) === 0x06054b50) { eocd = i; break; }
+  }
+  if (eocd < 0) throw new Error('不是有效的 zip（未找到中央目录）');
+
+  const count = dv.getUint16(eocd + 10, true);
+  let ptr = dv.getUint32(eocd + 16, true);
+  const out = [];
+
+  for (let n = 0; n < count; n++) {
+    if (ptr + 46 > u8.length || dv.getUint32(ptr, true) !== 0x02014b50) break;
+    const method = dv.getUint16(ptr + 10, true);
+    const compSize = dv.getUint32(ptr + 20, true);
+    const nameLen = dv.getUint16(ptr + 28, true);
+    const extraLen = dv.getUint16(ptr + 30, true);
+    const commentLen = dv.getUint16(ptr + 32, true);
+    const localOff = dv.getUint32(ptr + 42, true);
+    const name = new TextDecoder('utf-8', { fatal: false })
+      .decode(u8.subarray(ptr + 46, ptr + 46 + nameLen));
+
+    if (!name.endsWith('/') && compSize > 0) {
+      const lNameLen = dv.getUint16(localOff + 26, true);
+      const lExtraLen = dv.getUint16(localOff + 28, true);
+      const start = localOff + 30 + lNameLen + lExtraLen;
+      const raw = u8.subarray(start, start + compSize);
+      try {
+        out.push({ name, bytes: await inflate(raw, method) });
+      } catch (e) { /* 跳过损坏条目 */ }
+    }
+    ptr += 46 + nameLen + extraLen + commentLen;
+  }
+  return out;
+}
+
+function findKeys(text) {
+  const hits = [];
+  const seen = new Set();
+
+  for (const re of EXPLICIT) {
+    re.lastIndex = 0;
+    let m;
+    while ((m = re.exec(text)) !== null) {
+      const key = m[1].toLowerCase();
+      if (!seen.has(key)) { seen.add(key); hits.push({ key, ctx: m[0].slice(0, 120) }); }
+    }
+  }
+  if (hits.length) return hits;
+
+  const gen = /\b[0-9a-fA-F]{32}\b/g;
+  let m;
+  while ((m = gen.exec(text)) !== null) {
+    const start = Math.max(0, m.index - 80);
+    const ctx = text.slice(start, m.index + m[0].length + 80);
+    if (/(auth|key|secret|token)/i.test(ctx)) {
+      const key = m[0].toLowerCase();
+      if (!seen.has(key)) { seen.add(key); hits.push({ key, ctx: ctx.replace(/\s+/g, ' ') }); }
+    }
+  }
+  return hits;
+}
+
+async function collectEntries(buf, depth = 0) {
+  if (depth > 3) return [];
+  const entries = await parseZip(buf);
+  const out = [];
+  for (const e of entries) {
+    // 嵌套 zip：日志包内可能再套一层
+    if (e.bytes.length > 4 && e.bytes[0] === 0x50 && e.bytes[1] === 0x4b) {
+      try {
+        const sub = e.bytes.buffer.slice(e.bytes.byteOffset, e.bytes.byteOffset + e.bytes.byteLength);
+        out.push(...await collectEntries(sub, depth + 1));
+        continue;
+      } catch (_) { /* 当作普通文件处理 */ }
+    }
+    out.push(e);
+  }
+  return out;
+}
+
+async function scanFile(file) {
+  let entries;
+  if (/\.zip$/i.test(file.name) || file.type === 'application/zip') {
+    entries = await collectEntries(await file.arrayBuffer());
+  } else {
+    entries = [{ name: file.name, bytes: new Uint8Array(await file.arrayBuffer()) }];
+  }
+
+  const found = [];
+  const seen = new Set();
+  for (const e of entries) {
+    if (!e.bytes.length) continue;
+    const text = decodeBytes(e.bytes);
+    if (!/auth|key/i.test(text)) continue;
+    for (const h of findKeys(text)) {
+      if (seen.has(h.key)) continue;
+      seen.add(h.key);
+      found.push({ ...h, source: e.name });
+    }
+  }
+  return { entries: entries.length, found };
+}
+// </core>
+
+const drop = document.getElementById('drop');
+const input = document.getElementById('file');
+const result = document.getElementById('result');
+
+['dragenter', 'dragover'].forEach(ev => drop.addEventListener(ev, e => {
+  e.preventDefault(); drop.classList.add('hover');
+}));
+['dragleave', 'drop'].forEach(ev => drop.addEventListener(ev, e => {
+  e.preventDefault(); drop.classList.remove('hover');
+}));
+drop.addEventListener('drop', e => {
+  const f = e.dataTransfer.files[0];
+  if (f) handle(f);
+});
+input.addEventListener('change', e => {
+  if (e.target.files[0]) handle(e.target.files[0]);
+});
+
+async function handle(file) {
+  result.style.display = 'block';
+  result.innerHTML = '<div class="sub" style="margin:0">正在解析 ' +
+    file.name.replace(/[<>&]/g, '') + ' …</div>';
+  try {
+    const { entries, found } = await scanFile(file);
+    if (!found.length) {
+      result.innerHTML = '<div class="err">没有找到 AuthKey。共检查了 ' + entries + ' 个文件。</div>' +
+        '<div class="meta" style="margin-top:8px">确认已在小米运动健康里完成一次「设备数据同步成功」再导出日志；' +
+        '若手环已从账号删除，需要重新配对后再导出。</div>';
+      return;
+    }
+    result.innerHTML =
+      '<div style="font-weight:600;margin-bottom:4px">找到 ' + found.length + ' 个 AuthKey</div>' +
+      '<div class="meta">共检查 ' + entries + ' 个文件</div>' +
+      found.map((f, i) => (
+        '<div class="row">' +
+          '<div class="key" id="k' + i + '">' + f.key + '</div>' +
+          '<div class="meta">来源：' + f.source.replace(/[<>&]/g, '') + '</div>' +
+          '<div class="meta">上下文：' + f.ctx.replace(/[<>&]/g, '') + '</div>' +
+          '<div style="margin-top:8px"><button onclick="copyKey(' + i + ', this)">复制</button></div>' +
+        '</div>'
+      )).join('') +
+      (found.length > 1
+        ? '<div class="meta" style="margin-top:10px">一台手环对应一个 Key，按来源文件区分你的手环 10 NFC 版。</div>'
+        : '');
+  } catch (err) {
+    result.innerHTML = '<div class="err">解析失败：' + String(err.message || err) + '</div>' +
+      '<div class="meta" style="margin-top:8px">如果浏览器过旧（不支持 DecompressionStream），请改用 ' +
+      'tools/extract_authkey.py，或升级 Chrome / Edge / Safari 16.4+。</div>';
+  }
+}
+
+function copyKey(i, btn) {
+  const text = document.getElementById('k' + i).textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '已复制';
+    setTimeout(() => btn.textContent = '复制', 1200);
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+name: build-ipa
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "版本号（写入 CFBundleShortVersionString）"
+        required: false
+        default: "1.0"
+
+env:
+  PROJECT: BandBox.xcodeproj
+  SCHEME: BandBox
+  APP_NAME: BandBox
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ── 1. 协议层单元测试 ──────────────────────────────────────
+  test:
+    name: 单元测试
+    runs-on: macos-14
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 选择 Xcode
+        run: |
+          set -e
+          if [ -d /Applications/Xcode_15.4.app ]; then
+            sudo xcode-select -s /Applications/Xcode_15.4.app
+          fi
+          xcodebuild -version
+
+      - name: 运行测试
+        run: |
+          set -o pipefail
+          xcodebuild test \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            CODE_SIGNING_ALLOWED=NO \
+            2>&1 | tee xcodebuild-test.log
+
+      - name: 保存测试日志
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-logs
+          path: xcodebuild-test.log
+          retention-days: 7
+
+  # ── 2. 编译未签名 IPA（TrollStore / 自签用） ────────────────
+  build:
+    name: 编译未签名 IPA
+    runs-on: macos-14
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 选择 Xcode
+        run: |
+          set -e
+          if [ -d /Applications/Xcode_15.4.app ]; then
+            sudo xcode-select -s /Applications/Xcode_15.4.app
+          fi
+          xcodebuild -version
+
+      - name: 编译（关闭签名）
+        run: |
+          set -o pipefail
+          xcodebuild build \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -configuration Release \
+            -destination 'generic/platform=iOS' \
+            -derivedDataPath build \
+            MARKETING_VERSION="${{ github.event.inputs.version || '1.0' }}" \
+            CURRENT_PROJECT_VERSION="${{ github.run_number }}" \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            ONLY_ACTIVE_ARCH=NO \
+            ENABLE_BITCODE=NO \
+            2>&1 | tee xcodebuild.log
+
+      - name: 打包 IPA
+        id: package
+        env:
+          VERSION: ${{ github.event.inputs.version || '1.0' }}
+        run: |
+          set -euo pipefail
+          APP_PATH="build/Build/Products/Release-iphoneos/${APP_NAME}.app"
+          if [ ! -d "$APP_PATH" ]; then
+            echo "::error::找不到编译产物 $APP_PATH"
+            find build/Build/Products -maxdepth 3 -name "*.app" || true
+            exit 1
+          fi
+
+          rm -rf Payload dist && mkdir -p Payload dist
+          cp -R "$APP_PATH" Payload/
+          # 清掉签名残留，交给 TrollStore 在设备上 ldid 签名
+          rm -rf "Payload/${APP_NAME}.app/_CodeSignature" "Payload/${APP_NAME}.app/embedded.mobileprovision" || true
+
+          ZIP_NAME="${APP_NAME}-${VERSION}-unsigned.ipa"
+          zip -qry "dist/${ZIP_NAME}" Payload
+
+          echo "== 产物信息 =="
+          ls -lh "dist/${ZIP_NAME}"
+          unzip -l "dist/${ZIP_NAME}" | head -20
+          plutil -p "Payload/${APP_NAME}.app/Info.plist" | grep -E "CFBundleIdentifier|MinimumOSVersion|CFBundleShortVersionString|CFBundleVersion" || true
+          echo "zip_name=${ZIP_NAME}" >> "$GITHUB_OUTPUT"
+
+      - name: 上传构建产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: BandBox-ipa-${{ github.run_number }}
+          path: dist/*.ipa
+          retention-days: 30
+
+      - name: 保存编译日志
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-logs-${{ github.run_number }}
+          path: xcodebuild.log
+          retention-days: 7
+
+      - name: 打 tag 时发布 Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.ipa
+          body: |
+            未签名 IPA，适用于 TrollStore（iOS 14.0–16.6.1 / 17.0）永久签名安装。
+            其他设备请用 AltStore / Sideloadly 自签（7 天有效）。
+          generate_release_notes: true

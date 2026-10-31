@@ -1,1 +1,21 @@
-# placeholder
+# Xcode
+build/
+DerivedData/
+*.xcuserstate
+xcuserdata/
+*.xcscmblueprint
+*.xccheckout
+*.moved-aside
+
+# 构建产物
+dist/
+Payload/
+*.ipa
+*.dSYM.zip
+
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
