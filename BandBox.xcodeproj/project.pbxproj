@@ -27,6 +27,7 @@
 		86E09A5A0000000000001043 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E09A5A0000000000001042 /* SettingsView.swift */; };
 		86E09A5A0000000000001045 /* AuthKeyGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E09A5A0000000000001044 /* AuthKeyGuideView.swift */; };
 		86E09A5A0000000000001047 /* BandBoxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E09A5A0000000000001046 /* BandBoxTests.swift */; };
+		86E09A5A000000000000104A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 86E09A5A0000000000001049 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -267,6 +268,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86E09A5A000000000000104A /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
